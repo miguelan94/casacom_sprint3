@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.streamnow.lindaumobile.activities.ContactActivity"
+    tools:showIn="@layout/activity_contact">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ccc"
+        android:layout_marginTop="53dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#eee"
+            android:layout_weight="1"
+            android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1.5"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/contact_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/contact_placeholder"
+                        android:layout_weight="1.9"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/contact_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:paddingLeft="8dp"/>
+                        <TextView
+                            android:id="@+id/contact_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:paddingLeft="8dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contact_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:padding="6dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1.5"
+            android:layout_margin="10sp"
+            android:background="#fff">
+
+            <EditText
+                android:id="@+id/contact_msg_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:background="@android:color/transparent"
+                android:textCursorDrawable="@null"
+                android:gravity="top"
+                android:textSize="13sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/button_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#bbb"
+                    android:text="@string/contact_reset"
+                    android:textColor="#fff"
+                    android:layout_weight="1"
+                    android:onClick="resetEditText"
+                    />
+                <Button
+                    android:id="@+id/button_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/appColor"
+                    android:text="@string/contact_send"
+                    android:textColor="#fff"
+                    android:layout_weight="1"
+                    android:onClick="sendMessage"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_menu_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.streamnow.lindaumobile.activities.MenuActivity"
+    tools:showIn="@layout/activity_main_menu">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bgnd_image"
+            android:layout_weight="0.01">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:id="@+id/smartphone_image"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="100dp"
+                android:id="@+id/text_app_name"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff"
+                android:textSize="30sp"
+                android:typeface="normal" />
+
+            <ImageView
+                android:id="@+id/settings_ico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/i_settings"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/left_arrow"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/left_arrow"
+                android:longClickable="false"
+                android:visibility="gone"
+                android:paddingLeft="12dp"
+                android:paddingTop="6dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="6dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:id="@+id/divider"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/main_menu_list_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:drawSelectorOnTop="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:layout_weight="1">
+        </ListView>
+    </LinearLayout>
+
+</RelativeLayout>

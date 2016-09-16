@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Casacom_sprint3.iml" filepath="$PROJECT_DIR$/Casacom_sprint3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/europaallee/europaallee.iml" filepath="$PROJECT_DIR$/europaallee/europaallee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lindaumobile/lindaumobile.iml" filepath="$PROJECT_DIR$/lindaumobile/lindaumobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sbb/sbb.iml" filepath="$PROJECT_DIR$/sbb/sbb.iml" />
+    </modules>
+  </component>
+</project>
