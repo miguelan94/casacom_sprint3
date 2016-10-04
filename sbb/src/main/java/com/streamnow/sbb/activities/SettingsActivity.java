@@ -141,6 +141,7 @@ public class SettingsActivity extends BaseActivity {
                             SharedPreferences.Editor prefEditor = sharedPref.edit();
                             prefEditor.putBoolean("keepSession",false);
                             prefEditor.putString("access_token","");
+                            prefEditor.putString("Secret_Key","");
                             prefEditor.apply();
                             Intent i = new Intent(SettingsActivity.this,LoginActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,6 +163,7 @@ public class SettingsActivity extends BaseActivity {
                     SharedPreferences.Editor prefEditor = sharedPref.edit();
                     prefEditor.putBoolean("keepSession",false);
                     prefEditor.putString("access_token","");
+                    prefEditor.putString("Secret_Key","");
                     prefEditor.apply();
                     Intent i = new Intent(SettingsActivity.this,LoginActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

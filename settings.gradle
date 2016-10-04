@@ -1,1 +1,1 @@
-include ':app', ':lindaumobile', ':sbb', ':europaallee'
+include ':lsmobile', ':lindaumobile', ':sbb', ':europaallee', ':sentmatt'

@@ -65,7 +65,8 @@
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:layout_weight="6"
                 android:imeOptions="actionNext"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:freezesText="false" />
 
         </LinearLayout>
         <LinearLayout

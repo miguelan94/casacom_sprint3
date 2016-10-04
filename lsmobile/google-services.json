@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "361648246071",
+    "project_id": "firebase-ls-mobile"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361648246071:android:e0b17a580c9514db",
+        "android_client_info": {
+          "package_name": "com.streamnow.lsmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_ATOgw2dPZcSFWz4tLm9ig5dwtU89HI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

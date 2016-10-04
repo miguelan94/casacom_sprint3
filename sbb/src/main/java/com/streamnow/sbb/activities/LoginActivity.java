@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.security.KeyPairGeneratorSpec;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,18 +51,32 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.x500.X500Principal;
 
 import cz.msebera.android.httpclient.Header;
@@ -265,13 +280,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     public void loginButtonClicked(View sender)
     {
         progressDialog = ProgressDialog.show(this, getString(R.string.app_name), getString(R.string.please_wait), true);
-
-        //if( LDConnection.isSetCurrentUrl() )
-        //{
-            //continueLogin();
-        //}
-        //else
-        //{
             LDConnection.setCurrentUrlString(null);
             RequestParams requestParams = new RequestParams("app", Lindau.getInstance().appId);
             LDConnection.get("getURL", requestParams, new JsonHttpResponseHandler()
@@ -411,7 +419,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                         prefEditor.putBoolean("keepSession",true);
                         prefEditor.putString("AppId",Lindau.getInstance().appId);
 
-                        createNewKeys("livingservices");
+                        //createNewKeys("livingservices");
                         String cipherPass = encryptString("livingservices",password);
                         prefEditor.putString("user",username);
                         prefEditor.putString("pass",cipherPass);
@@ -579,9 +587,101 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private  String encryptString(String alias , String text) {
+
+        SharedPreferences  preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getString("Secret_Key","").equals("")){
+            byte [] secretKey = alias.getBytes();
+
+            byte[] randomByte = new byte[8];
+            SecureRandom secureRandom = new SecureRandom();
+            secureRandom.nextBytes(randomByte);
+
+
+            try {
+               /* factory = SecretKeyFactory.getInstance("HmacSHA256");
+                KeySpec spec = new PBEKeySpec(alias.toCharArray(), randomByte, 65536, 256);
+                SecretKey tmp = factory.generateSecret(spec);
+                SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+                */
+                KeyGenerator key = KeyGenerator.getInstance("HmacSHA256");
+                key.init(256);
+                SecretKey secret = key.generateKey();
+
+
+
+                String stringSecretKey = Base64.encodeToString(secret.getEncoded(),Base64.DEFAULT);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putString("Secret_Key",stringSecretKey);
+                prefEditor.apply();
+
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+
+           // SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey,"AES");
+            //String stringSecretKey = Base64.encodeToString(secretKeySpec.getEncoded(),Base64.DEFAULT);
+           /* String stringSecretKey = Base64.encodeToString(secret.getEncoded(),Base64.DEFAULT);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+            SharedPreferences.Editor prefEditor = sharedPref.edit();
+            System.out.println("KEY----------------->" + stringSecretKey);
+            System.out.println("SIZE KEY----------------->" + stringSecretKey.length());
+            prefEditor.putString("Secret_Key",stringSecretKey);
+            prefEditor.apply();*/
+
+        }
+        if(!preferences.getString("Secret_Key","").equals("")){
+            byte [] encodedBytes;
+            try {
+                Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+                String key = preferences.getString("Secret_Key","");
+                byte [] encodedKey = Base64.decode(key,Base64.DEFAULT);
+
+                SecretKey originalkey = new SecretKeySpec(encodedKey,0,encodedKey.length,"AES");
+
+                byte [] IV = new byte [cipher.getBlockSize()];
+                SecureRandom secureRandom = new SecureRandom();
+                secureRandom.nextBytes(IV);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putString("IV",Base64.encodeToString(IV,Base64.DEFAULT));
+                prefEditor.apply();
+
+                IvParameterSpec ivParameterSpec = new IvParameterSpec(IV);
+                cipher.init(Cipher.ENCRYPT_MODE,originalkey, ivParameterSpec);
+                encodedBytes = cipher.doFinal(text.getBytes());
+
+                return Base64.encodeToString(encodedBytes,Base64.DEFAULT);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+
+            }
+        }
+        else{
+            return "";
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
         String encryptedText = null;
         try {
-
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(alias, null);
             RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
 
@@ -597,13 +697,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             byte [] vals = outputStream.toByteArray();
             encryptedText = Base64.encodeToString(vals, Base64.DEFAULT);
 
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return encryptedText;
+     */
+
     }
 
 }

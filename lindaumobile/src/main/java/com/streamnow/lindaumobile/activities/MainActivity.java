@@ -129,7 +129,10 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        long difference = (date_server.getTime() - date_current.getTime()) / 1000;
+        long difference = 0;
+        if(date_server!=null && date_current!=null){
+            difference = (date_server.getTime() - date_current.getTime()) / 1000;
+        }
 
         if (difference > 0 && difference <= 100) {
             //refresh
@@ -180,12 +183,10 @@ public class MainActivity extends BaseActivity {
 
         } else if (difference <= 0) {
             //login
-
             System.out.println("login");
             final String username = preferences.getString("user", "");
             String cipherPassword = preferences.getString("pass", "");
             final String password = decryptString("livingservices", cipherPassword);
-
             RequestParams requestParams = new RequestParams();
             requestParams.add("email", username);
             requestParams.add("password", password);

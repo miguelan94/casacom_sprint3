@@ -193,12 +193,13 @@ public class MenuActivity extends BaseActivity
 
             services = sessionUser.getAvailableServicesForCategoryId(categoryId);
             final LDService service = (LDService) services.get(position);
+            System.out.println("service clicked: " + service.id + " type: " + service.type + " category: " + categoryId);
             if (service.type.equals("2"))
             {
                 final Intent intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra("web_url", service.webviewUrl);
                 intent.putExtra("service_id", service.id);
-                if(categoryId.equals("5")){
+                if(categoryId.equals("5") || categoryId.equals("92")){
                     RequestParams requestParams = new RequestParams();
                     requestParams.add("appId",service.secretId);
                     requestParams.add("userId",getIntent().getStringExtra("user_vodka"));
@@ -231,8 +232,6 @@ public class MenuActivity extends BaseActivity
                         {
                             try {
                                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-
-
 
                                     /*CustomTabsServiceConnection mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
                                         @Override
@@ -356,7 +355,7 @@ public class MenuActivity extends BaseActivity
                     intent.putExtra("api_url", service.apiUrl);
                     startActivity(intent);
                 }
-                else if(service.id.equals("3"))
+                else if(service.id.equals("3") || service.id.equals("16"))
                 {
                     Intent intent = new Intent(this, DocmanMenuActivity.class);
                     intent.putExtra("root_menu", true);
@@ -428,11 +427,13 @@ public class MenuActivity extends BaseActivity
                 final Intent intent = new Intent(this, MenuActivity.class);
                 intent.putExtra("category_id", sessionUser.categories.get(position).id);
                 intent.putExtra("sub_menu", true);
-                if(sessionUser.categories.get(position).id.equals("5")){//entertainment
+                if(sessionUser.categories.get(position).id.equals("5") || sessionUser.categories.get(position).id.equals("92")){//entertainment
                     //if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1){ //API 21-22
                      //   showAlertDialog(getResources().getString(R.string.no_entertainment_avaliable));
                    // }
                    // else{
+
+
                         final RequestParams requestParams = new RequestParams("access_token",sessionUser.accessToken);
                         LDConnection.get("myentertainment/getCredentials",requestParams,new JsonHttpResponseHandler(){
                             @Override

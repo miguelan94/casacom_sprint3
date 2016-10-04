@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 public class Lindau extends Application {
     private static Lindau sharedInstance;
 
-    //public String appId = "com.streamnow.lindaumobile2";
-    public String appId = "com.streamnow.lindaumobiletesting";
+    public String appId = "com.streamnow.lindaumobile2";
+    //public String appId = "com.streamnow.lindaumobiletesting";
     public String appDemoAccount = "demo.lindau";
     private LDSessionUser currentSessionUser;
     private ArrayList<IMenuPrintable> userTree;

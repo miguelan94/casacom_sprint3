@@ -10,7 +10,7 @@ android {
         applicationId "com.streamnow.lindaumobile"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
+        versionCode 5
         versionName "1.0"
     }
     buildTypes {

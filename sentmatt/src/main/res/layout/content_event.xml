@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/background_table"
+    tools:context="com.streamnow.sentmatt.activities.EventActivity"
+    tools:showIn="@layout/activity_event">
+
+
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout1"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="62dp">
+
+                    <ScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true"
+                        android:id="@+id/scrollView2" >
+
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true"
+                            android:id="@+id/horizontalScrollView" >
+
+                            <TableLayout
+                                android:id="@+id/table_main"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:stretchColumns="*"
+                                android:padding="10dp">
+
+                                <TableRow
+                                    android:id="@+id/head"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="2dp"
+                                    android:orientation="vertical"
+                                    android:textAlignment="center">
+
+                                    <TextView
+                                        android:id="@+id/headDate"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5px"
+                                        android:textSize="22sp"
+                                        android:gravity="center" />
+
+                                    <TextView
+                                        android:id="@+id/headTime"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:padding="5px"
+                                        android:textSize="22sp"
+                                        android:gravity="center" />
+
+                                    <TextView
+                                        android:id="@+id/headOccasion"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5px"
+                                        android:textSize="22sp"
+                                        android:gravity="center" />
+
+                                    <TextView
+                                        android:id="@+id/headWhere"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5px"
+                                        android:textSize="22sp"
+                                        android:gravity="center" />
+
+                                </TableRow>
+
+                            </TableLayout>
+                        </HorizontalScrollView>
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+</LinearLayout>

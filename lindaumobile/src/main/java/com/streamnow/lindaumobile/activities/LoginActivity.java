@@ -21,6 +21,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -94,9 +95,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setContentView(R.layout.activity_login);
         }
-
         init();
     }
+  /*  @Override
+    protected  void onSaveInstanceState(Bundle state){
+        super.onSaveInstanceState(state);
+       // state.putString("userSaved",userEditText.getText().toString());
+        //state.putString("passSaved",passwdEditText.getText().toString());
+    }*/
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void init() {
@@ -205,7 +211,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    @Override
+   /* @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Locale locale = new Locale(Resources.getSystem().getConfiguration().locale.getLanguage());
@@ -220,11 +226,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             init();
         }
 
-    }
+    }*/
 
     public void loginButtonClicked(View sender) {
         progressDialog = ProgressDialog.show(this, getString(R.string.app_name), getString(R.string.please_wait), true);
-
         LDConnection.setCurrentUrlString(null);
         RequestParams requestParams = new RequestParams("app", Lindau.getInstance().appId);
         LDConnection.get("getURL", requestParams, new JsonHttpResponseHandler() {
@@ -233,11 +238,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 try {
                     String url = response.getString("url");
                     //'http://esp-testing.streamnow.ch/'
-                   // LDConnection.setCurrentUrlString(url);
-                    LDConnection.setCurrentUrlString("https://esp-testing.streamnow.ch/");
+                    LDConnection.setCurrentUrlString(url);
+                   // LDConnection.setCurrentUrlString("https://esp-testing.streamnow.ch/");
                     //LDConnection.getHttpClient().setSSLSocketFactory(MySSLSocketFactory.getFixedSocketFactory());
                     System.out.println("endpoint = " + LDConnection.getAbsoluteUrl("auth/login"));
-
                     System.out.println("Response.url = '" + url + "'");
                     continueLogin();
                 } catch (JSONException e) {
@@ -397,7 +401,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         layout.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()), 0);
         layout.addView(inputEmail);
         new AlertDialog.Builder(this)
-                .setTitle(R.string.app_name)
+                .setTitle(R.string.reset_button_title)
                 .setMessage(msg)
                 .setView(layout)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
