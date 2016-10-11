@@ -49,4 +49,9 @@
     <string name="select_BP">Select</string>
     <string name="switch_loggued">Stay Logged</string>
     <string name="service_not_activated">Service not activated</string>
+    <string name="service_activated">Service activated</string>
+    <string name="shopping_error">It was not possible to activate your new service. Please try again later</string>
+    <string name="shopping_confirm">Are you sure want to buy this service?</string>
+    <string name="buy">Buy</string>
+    <item name="TAGService" type="string">service</item>
 </resources>

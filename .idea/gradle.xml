@@ -10,20 +10,24 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/europaallee" />
+            <option value="$PROJECT_DIR$/flow" />
             <option value="$PROJECT_DIR$/lindaumobile" />
             <option value="$PROJECT_DIR$/lsmobile" />
             <option value="$PROJECT_DIR$/sbb" />
             <option value="$PROJECT_DIR$/sentmatt" />
+            <option value="$PROJECT_DIR$/vulcanomobile" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/europaallee" />
+            <option value="$PROJECT_DIR$/flow" />
             <option value="$PROJECT_DIR$/lindaumobile" />
             <option value="$PROJECT_DIR$/lsmobile" />
             <option value="$PROJECT_DIR$/sbb" />
             <option value="$PROJECT_DIR$/sentmatt" />
+            <option value="$PROJECT_DIR$/vulcanomobile" />
           </set>
         </option>
       </GradleProjectSettings>

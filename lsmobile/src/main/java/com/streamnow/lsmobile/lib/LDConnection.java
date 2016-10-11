@@ -12,6 +12,7 @@ public class LDConnection
 
     private static AsyncHttpClient httpClient = new AsyncHttpClient();
 
+
     public static void get(String endpoint, RequestParams requestParams, AsyncHttpResponseHandler responseHandler)
     {
         httpClient.setEnableRedirects(true);
@@ -22,6 +23,11 @@ public class LDConnection
     {
         httpClient.setEnableRedirects(true);
         httpClient.post(getAbsoluteUrl(endpoint), requestParams, responseHandler);
+    }
+    public static void put(String endpoint, RequestParams requestParams, AsyncHttpResponseHandler responseHandler)
+    {
+        httpClient.setEnableRedirects(true);
+        httpClient.put(getAbsoluteUrl(endpoint), requestParams, responseHandler);
     }
 
     public static String getAbsoluteUrl(String endpoint)

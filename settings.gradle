@@ -1,1 +1,1 @@
-include ':lsmobile', ':lindaumobile', ':sbb', ':europaallee', ':sentmatt'
+include ':lsmobile', ':lindaumobile', ':sbb', ':europaallee', ':sentmatt', ':flow', ':vulcanomobile'

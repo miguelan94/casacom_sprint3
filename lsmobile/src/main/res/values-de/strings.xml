@@ -47,4 +47,8 @@
     <string name="select_BP">wählen</string>
     <string name="switch_loggued">Angemeldet bleiben</string>
     <string name="service_not_activated">Dienst nicht aktiviert</string>
+    <string name="service_activated">Dienst aktiviert</string>
+    <string name="shopping_error">Es war nicht möglich, Ihren neuen Service zu aktivieren. Bitte versuchen Sie es später.</string>
+    <string name="shopping_confirm">Sind Sie sicher um diesen Service zu kaufen?</string>
+    <string name="buy">kaufen</string>
 </resources>

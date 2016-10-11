@@ -2,10 +2,13 @@ package com.streamnow.lindaumobile.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -154,6 +157,7 @@ public class DocmanMenuActivity extends BaseActivity {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             try {
+                System.out.println("response:" + response.toString());
                 if (response.getString("status").equals("ok")) {
                     ArrayList<IMenuPrintable> userTreeArray = new ArrayList<>();
                     userTreeArray.addAll(DMCategory.categoriesWithArray(response.getJSONArray("usertree")));
@@ -195,25 +199,31 @@ public class DocmanMenuActivity extends BaseActivity {
                                 .show();
                     }
                 } else {
-                    showAlertDialog(getString(R.string.network_error));
+                    //showAlertDialog(getString(R.string.network_error));
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+
+                    } else {
+                        System.out.println("network error");
+                        showAlertDialog(getResources().getString(R.string.network_error));
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                showAlertDialog(getString(R.string.network_error));
+                //showAlertDialog(getString(R.string.network_error));
             }
             progressDialog.dismiss();
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
-            showAlertDialog(getString(R.string.network_error));
             System.out.println("getContact onFailure throwable: " + throwable.toString() + " status code = " + statusCode);
             progressDialog.dismiss();
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-            showAlertDialog(getString(R.string.network_error));
             System.out.println("getContact onFailure json" + errorResponse.toString());
             progressDialog.dismiss();
         }

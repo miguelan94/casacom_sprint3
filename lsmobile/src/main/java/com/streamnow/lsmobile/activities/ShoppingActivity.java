@@ -22,29 +22,43 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 import com.streamnow.lsmobile.R;
+import com.streamnow.lsmobile.datamodel.DMCategory;
 import com.streamnow.lsmobile.datamodel.LDService;
 import com.streamnow.lsmobile.datamodel.LDSessionUser;
+import com.streamnow.lsmobile.interfaces.IMenuPrintable;
+import com.streamnow.lsmobile.lib.LDConnection;
+import com.streamnow.lsmobile.utils.DocMenuAdapter;
 import com.streamnow.lsmobile.utils.Lindau;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ShoppingActivity extends BaseActivity implements View.OnClickListener {
+import cz.msebera.android.httpclient.Header;
+
+public class ShoppingActivity extends BaseActivity {
 
     protected final LDSessionUser sessionUser = Lindau.getInstance().getCurrentSessionUser();
     private LinearLayout linearLayout;
     private int size = 0;
     private int numCols = 0;
+    int serviceClicked = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +85,7 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
 
         RelativeLayout background = (RelativeLayout) findViewById(R.id.background_shopping);
         background.setBackgroundColor(sessionUser.userInfo.partner.backgroundColorSmartphone);
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
+        final TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
         ImageView left_arrow = (ImageView) findViewById(R.id.left_arrow_shopping);
         left_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +99,8 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
         float dp_w = 171 / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         float dp_h = 186 / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         System.out.println("dp_w : " + dp_w + " dp_h: " + dp_h);
-        ArrayList<LDService> services = sessionUser.availableServices;
+        final ArrayList<LDService> services = sessionUser.availableServices;
+
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             numCols = 4;
@@ -130,15 +145,75 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
 
                 ImageView image = new ImageView(this);
                 ImageView image_bgnd = new ImageView(this);
-                int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+                final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
                 image.setPadding(padding, padding, padding, padding);
-                image.setTag(services.get(cont).name);
-                image.setOnClickListener(this);
+                image.setTag(R.string.TAGService,cont);
+                //image.setOnClickListener(this);
 
                 if (!services.get(cont).usable) {
                     image.setAlpha(100);
+                    image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (v.getTag(R.string.TAGService)!=null) {
+                                final int position = Integer.parseInt(v.getTag(R.string.TAGService).toString());
+                                new AlertDialog.Builder(ShoppingActivity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(services.get(position).name)
+                                        .setPositiveButton(getString(R.string.buy), new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new AlertDialog.Builder(ShoppingActivity.this)
+                                                        .setMessage(getString(R.string.shopping_confirm))
+                                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                serviceClicked = position;
+                                                                RequestParams requestParams = new RequestParams();
+                                                                requestParams.add("access_token",sessionUser.accessToken);
+                                                                requestParams.add("service_id",services.get(position).id);
+                                                                LDConnection.put("services/enable",requestParams,new ResponseHandlerJson());
+
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
+                                        })
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                    });
+
+
+
                 } else {
                     image.setAlpha(255);
+                    image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (v.getTag(R.string.TAGService) != null) {
+                                new AlertDialog.Builder(ShoppingActivity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(services.get(Integer.parseInt(v.getTag(R.string.TAGService).toString())).name)
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                    });
+
+
                 }
                 createBitMap(image_bgnd);
                 Picasso.with(this)
@@ -173,12 +248,42 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
         bgnd.invalidate();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getTag() != null && !v.getTag().toString().equals("")) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.app_name)
-                    .setMessage(v.getTag().toString())
+    private class ResponseHandlerJson extends JsonHttpResponseHandler{
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            try {
+                if(response.getString("msg").equalsIgnoreCase("OK")){
+                    new AlertDialog.Builder(ShoppingActivity.this)
+                            .setMessage(getString(R.string.service_activated))
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ArrayList<LDService> services = sessionUser.availableServices;
+                                    //services.get(serviceClicked).usable = true;
+
+                                }
+                            })
+                            .show();
+                }
+                else{
+                    new AlertDialog.Builder(ShoppingActivity.this)
+                            .setMessage(getString(R.string.shopping_error))
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+            System.out.println("JSON services onFailure throwable: " + throwable.toString() + " status code = " + statusCode);
+            new AlertDialog.Builder(ShoppingActivity.this)
+                    .setMessage(getString(R.string.shopping_error))
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -186,6 +291,18 @@ public class ShoppingActivity extends BaseActivity implements View.OnClickListen
                     .show();
         }
 
-
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            System.out.println("JSON service onFailure json" + errorResponse.toString());
+            new AlertDialog.Builder(ShoppingActivity.this)
+                    .setMessage(getString(R.string.shopping_error))
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+        }
     }
+
+
 }
