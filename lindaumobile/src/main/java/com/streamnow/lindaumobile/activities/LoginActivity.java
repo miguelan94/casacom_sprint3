@@ -117,14 +117,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         main_logo = (ImageView) findViewById(R.id.main_logo);
         loginButton = (Button) this.findViewById(R.id.loginButton);
         resetButton = (Button) findViewById(R.id.resetButton);
+        final int colorBP = getResources().getColor(R.color.colorBP);
         switch_logged = (Switch) findViewById(R.id.switch_loggged);
         switch_logged.getThumbDrawable().setColorFilter(getResources().getColor(R.color.switchLogged), PorterDuff.Mode.MULTIPLY);
-        switch_logged.getTrackDrawable().setColorFilter(Color.rgb(44, 159, 20), PorterDuff.Mode.MULTIPLY);
+        switch_logged.getTrackDrawable().setColorFilter(colorBP, PorterDuff.Mode.MULTIPLY);
         switch_logged.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    switch_logged.getThumbDrawable().setColorFilter(Color.rgb(44, 159, 20), PorterDuff.Mode.MULTIPLY);
+                    switch_logged.getThumbDrawable().setColorFilter(colorBP, PorterDuff.Mode.MULTIPLY);
 
 
                 } else {
@@ -252,16 +253,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 System.out.println("onFailure json");
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 System.out.println("onFailure array");
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
                 System.out.println("getURL KO: " + throwable.toString() + " status code = " + statusCode + " responseString = " + response);
+                progressDialog.dismiss();
             }
         });
 

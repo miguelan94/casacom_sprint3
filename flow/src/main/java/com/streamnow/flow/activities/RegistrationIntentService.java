@@ -28,7 +28,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class RegistrationIntentService extends IntentService {
 
-    private static String SENDER_ID = "583844385806";
+    private static String SENDER_ID = "332808073073";
     private String token;
     private Handler handler;
 
@@ -40,7 +40,7 @@ public class RegistrationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-/*
+
         try {
 
 
@@ -56,11 +56,11 @@ public class RegistrationIntentService extends IntentService {
             Log.d("Fail token", "Failed to complete token refresh", e);
 
 
-        }*/
+        }
     }
 
-    public class Thread_ {//implements Runnable
-/*
+    public class Thread_ implements Runnable {
+
         @Override
         public void run() {
             RequestParams requestParams = new RequestParams();
@@ -97,6 +97,7 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
+
     private void sendRegistrationToServer(String token) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("access_token", token);
@@ -123,7 +124,7 @@ public class RegistrationIntentService extends IntentService {
                 System.out.println("push notifications onFailure json" + errorResponse.toString());
             }
         });
-*/
+
     }
 
 }

@@ -313,6 +313,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         prefEditor.putString("user", username);
                         prefEditor.putString("pass", cipherPass);
                         prefEditor.apply();
+                        // Intent i = new Intent(MainActivity.this, RegistrationIntentService.class);
+                        //startService(i);
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();
@@ -332,6 +334,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             });
         } else {
+            System.out.println("continue");
             continueCheckLogin();
         }
     }

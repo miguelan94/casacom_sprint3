@@ -116,7 +116,7 @@ public class MenuActivity extends BaseActivity
 
         TextView textView = (TextView)findViewById(R.id.text_app_name);
         if(sessionUser.userInfo.partner.smartphoneAppName!=null && sessionUser.userInfo.partner.smartphoneAppName.isEmpty()){
-            textView.setText(sessionUser.userInfo.partner.name);
+            textView.setText(sessionUser.userInfo.partner.company);
         }
         else{
             textView.setText(sessionUser.userInfo.partner.smartphoneAppName);

@@ -6,5 +6,5 @@
     <color name="appColor">#2C9F14</color>
     <color name="loginButtonPressed">#1C630D</color>
     <color name="switchLogged">#f1f1f1</color>
-
+    <color name="colorBP">#8F414D</color>
 </resources>

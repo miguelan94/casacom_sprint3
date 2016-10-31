@@ -78,8 +78,6 @@ public class MenuAdapter extends BaseAdapter {
         textView.setText(menuPrintable.getRowTitleText());
 
         createBitMap(bgnd_circle);
-
-
         if (items.get(position) instanceof LDService) {
             LDService service = (LDService) items.get(position);
             if (service.id.equals("3")) {

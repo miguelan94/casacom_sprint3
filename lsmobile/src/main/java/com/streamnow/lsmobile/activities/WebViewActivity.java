@@ -124,7 +124,7 @@ public class WebViewActivity extends BaseActivity {
 
 
         });
-        if (getIntent().getStringExtra("token") != null && (serviceId.equals("29") || serviceId.equals("57") || serviceId.equals("59") || serviceId.equals("60") || serviceId.equals("27"))) {
+        if (getIntent().getStringExtra("token") != null && serviceId!=null && (serviceId.equals("29") || serviceId.equals("57") || serviceId.equals("59") || serviceId.equals("60") || serviceId.equals("27"))) {
             String token = getIntent().getStringExtra("token");
             webView.loadUrl(webUrlString + "token=" + token);
         } else {

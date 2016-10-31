@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "332808073073",
+    "project_id": "firebase-flow-mobile"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332808073073:android:1025d1532be3fe29",
+        "android_client_info": {
+          "package_name": "com.streamnow.flow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk-2SVzHH-BBlzhPteunbhIGPm64xoR7A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

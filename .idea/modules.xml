@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/lsmobile/lsmobile.iml" filepath="$PROJECT_DIR$/lsmobile/lsmobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/sbb/sbb.iml" filepath="$PROJECT_DIR$/sbb/sbb.iml" />
       <module fileurl="file://$PROJECT_DIR$/sentmatt/sentmatt.iml" filepath="$PROJECT_DIR$/sentmatt/sentmatt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ubs/ubs.iml" filepath="$PROJECT_DIR$/ubs/ubs.iml" />
       <module fileurl="file://$PROJECT_DIR$/vulcanomobile/vulcanomobile.iml" filepath="$PROJECT_DIR$/vulcanomobile/vulcanomobile.iml" />
     </modules>
   </component>

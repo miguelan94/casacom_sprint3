@@ -2,13 +2,18 @@ package com.streamnow.lsmobile.activities;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,7 +76,7 @@ public class MenuActivity extends BaseActivity {
 
         TextView textView = (TextView) findViewById(R.id.text_app_name);
         if (sessionUser.userInfo.partner.smartphoneAppName != null && sessionUser.userInfo.partner.smartphoneAppName.isEmpty()) {
-            textView.setText(sessionUser.userInfo.partner.name);
+            textView.setText(sessionUser.userInfo.partner.company);
         } else {
             textView.setText(sessionUser.userInfo.partner.smartphoneAppName);
         }
@@ -96,9 +101,21 @@ public class MenuActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                   /* BroadcastReceiver brd_receiver = new BroadcastReceiver() {
+
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            if (intent.getAction().equals("receive data from C")) {
+                                System.out.println("receive");
+                            }
+
+                        }
+                    };
+
+                    registerReceiver(brd_receiver, new IntentFilter("receive data from C"));*/
                     Intent i = new Intent(MenuActivity.this, SettingsActivity.class);
                     i.putExtra("main_menu", true);
-                    startActivity(i);
+                    startActivityForResult(i,1);
 
                 }
             });
@@ -137,18 +154,80 @@ public class MenuActivity extends BaseActivity {
                 showAlertDialog();
             }
             else{
-                if (service.type.equals("2")) {
-                    final Intent intent = new Intent(this, WebViewActivity.class);
-                    intent.putExtra("web_url", service.webviewUrl);
-                    intent.putExtra("service_id", service.id);
-                    if (categoryId.equals("5")) {
-                        RequestParams requestParams = new RequestParams();
-                        requestParams.add("appId", service.secretId);
-                        requestParams.add("userId", getIntent().getStringExtra("user_vodka"));
-                        requestParams.add("password", getIntent().getStringExtra("pass_vodka"));
-                        AsyncHttpClient httpClient = new AsyncHttpClient();
-                        httpClient.setUserAgent("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
-                        httpClient.setEnableRedirects(true);
+                switch (service.type) {
+                    case "2": {
+                        final Intent intent = new Intent(this, WebViewActivity.class);
+                        intent.putExtra("web_url", service.webviewUrl);
+                        intent.putExtra("service_id", service.id);
+                        startActivity(intent);
+                        break;
+                    }
+                    case "3": {
+                        // TODO Open youtube video here
+                        Intent intent = new Intent(this, WebViewActivity.class);
+                        intent.putExtra("web_url", "https://m.youtube.com/watch?v=" + service.webviewUrl);
+                        startActivity(intent);
+                        break;
+                    }
+                    case "1":{
+
+
+                        /*if (service.id.equals("22")) {//events
+                            Intent i = new Intent(this, EventActivity.class);
+                            startActivity(i);
+                        } else if (service.id.equals("53") || service.id.equals("20")) {
+                            Intent intent = new Intent(this, ContactActivity.class);
+                            intent.putExtra("api_url", service.apiUrl);
+                            startActivity(intent);
+                        } else if (service.id.equals("3")) {
+                            Intent intent = new Intent(this, DocmanMenuActivity.class);
+                            intent.putExtra("root_menu", true);
+                            intent.putExtras(new Bundle());
+                            startActivity(intent);
+                        }*/
+                        break;
+                    }
+                    case "8": {
+                        Intent intent = getPackageManager().getLaunchIntentForPackage(service.webviewUrl);
+                        if (intent != null) {
+                            startActivity(intent);
+                        } else {
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + service.webviewUrl)));
+                            } catch (ActivityNotFoundException e) {
+                                e.printStackTrace();
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + service.webviewUrl)));
+                            }
+
+                        }
+                        break;
+                    }
+                    case "9": {
+                        Intent intent = new Intent(this, ContactActivity.class);
+                        intent.putExtra("api_url", service.apiUrl);
+                        startActivity(intent);
+                        break;
+                    }
+                    case "10": {
+                        Intent intent = new Intent(this, DocmanMenuActivity.class);
+                        intent.putExtra("root_menu", true);
+                        intent.putExtras(new Bundle());
+                        startActivity(intent);
+                        break;
+                    }
+                    case "11": {
+                        Intent i = new Intent(this, EventActivity.class);
+                        startActivity(i);
+                        break;
+                    }
+                    case "12": {
+                            RequestParams requestParams = new RequestParams();
+                            requestParams.add("appId", service.secretId);
+                            requestParams.add("userId", getIntent().getStringExtra("user_vodka"));
+                            requestParams.add("password", getIntent().getStringExtra("pass_vodka"));
+                            AsyncHttpClient httpClient = new AsyncHttpClient();
+                            httpClient.setUserAgent("Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36");
+                            httpClient.setEnableRedirects(true);
                    /* KeyStore trustStore = null;
                     MySSLSocketFactory socketFactory = null;
                     try {
@@ -161,83 +240,49 @@ public class MenuActivity extends BaseActivity {
                     }
                     httpClient.setSSLSocketFactory(socketFactory);
                     */
-
-                        httpClient.setSSLSocketFactory(MySSLSocketFactory.getFixedSocketFactory());
-                        httpClient.post(service.apiUrl, requestParams, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                try {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(service.webviewUrl + "token=" + response.getString("token")));
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.setPackage("com.android.chrome");
-                                        try {
-                                            startActivity(intent);
-                                        } catch (ActivityNotFoundException e) {
-                                            // Chrome is probably not installed
-                                            intent.setPackage(null);
+                            httpClient.setSSLSocketFactory(MySSLSocketFactory.getFixedSocketFactory());
+                            httpClient.post(service.apiUrl, requestParams, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    try {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(service.webviewUrl + "token=" + response.getString("token")));
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.setPackage("com.android.chrome");
+                                            try {
+                                                startActivity(intent);
+                                            } catch (ActivityNotFoundException e) {
+                                                // Chrome is probably not installed
+                                                intent.setPackage(null);
+                                                startActivity(intent);
+                                            }
+                                        } else {
+                                            Intent intent = new Intent(MenuActivity.this, WebViewActivity.class);
+                                            intent.putExtra("web_url", service.webviewUrl);
+                                            intent.putExtra("service_id", service.id);
+                                            intent.putExtra("token", response.getString("token"));
                                             startActivity(intent);
                                         }
-                                    } else {
-
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                System.out.println("onFailure json" + errorResponse.toString());
-                            }
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    System.out.println("onFailure json" + errorResponse.toString());
+                                }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                System.out.println("onFailure array");
-                            }
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                    System.out.println("onFailure array");
+                                }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
-                                System.out.println("get token KO: " + throwable.toString() + " status code = " + statusCode + " responseString = " + response);
-                            }
-                        });
-                    } else {
-                        startActivity(intent);
-                    }
-
-                } else if (service.type.equals("3")) {
-                    // TODO Open youtube video here
-                    Intent intent = new Intent(this, WebViewActivity.class);
-                    intent.putExtra("web_url", "https://m.youtube.com/watch?v=" + service.webviewUrl);
-                    startActivity(intent);
-                } else if (service.type.equals("1")) {
-                    if (service.id.equals("22")) {//events
-                        Intent i = new Intent(this, EventActivity.class);
-                        startActivity(i);
-
-                    } else if (service.id.equals("53") || service.id.equals("20")) {
-                        Intent intent = new Intent(this, ContactActivity.class);
-                        intent.putExtra("api_url", service.apiUrl);
-                        startActivity(intent);
-                    } else if (service.id.equals("3")) {
-                        Intent intent = new Intent(this, DocmanMenuActivity.class);
-                        intent.putExtra("root_menu", true);
-                        intent.putExtras(new Bundle());
-                        startActivity(intent);
-                    }
-                } else if (service.type.equals("8")) {
-                    Intent intent = getPackageManager().getLaunchIntentForPackage(service.webviewUrl);
-                    if (intent != null) {
-                        startActivity(intent);
-                    } else {
-                        try{
-                            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("market://details?id="+service.webviewUrl)));
-                        }catch (ActivityNotFoundException e){
-                            e.printStackTrace();
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + service.webviewUrl)));
-                        }
-
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+                                    System.out.println("get token KO: " + throwable.toString() + " status code = " + statusCode + " responseString = " + response);
+                                }
+                            });
                     }
                 }
             }
@@ -250,43 +295,66 @@ public class MenuActivity extends BaseActivity {
                 LDService service = (LDService) services.get(0);
                 //check service type
                 if(!service.usable){
-
                     showAlertDialog();
                 }
                 else{
-                    if (service.type.equals("1")) {
-                        if (service.id.equals("53") || service.id.equals("20")) {
+                    switch (service.type) {
+                        case "1":
+                            /*if (service.id.equals("53") || service.id.equals("20")) {
+                                Intent intent = new Intent(this, ContactActivity.class);
+                                intent.putExtra("api_url", service.apiUrl);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(this, DocmanMenuActivity.class);
+                                intent.putExtra("root_menu", true);
+                                intent.putExtras(new Bundle());
+                                startActivity(intent);
+                            }*/
+                            break;
+                        case "2": {
+                            Intent intent = new Intent(this, WebViewActivity.class);
+                            intent.putExtra("web_url", service.webviewUrl);
+                            startActivity(intent);
+                            break;
+                        }
+                        case "3": {
+                            // TODO Open youtube video here
+                            Intent intent = new Intent(this, WebViewActivity.class);
+                            intent.putExtra("web_url", "https://m.youtube.com/watch?v=" + service.webviewUrl);
+                            startActivity(intent);
+                            break;
+                        }
+                        case "8": {
+                            Intent intent = getPackageManager().getLaunchIntentForPackage(service.webviewUrl);
+                            if (intent != null) {
+                                startActivity(intent);
+                            } else {
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + service.webviewUrl)));
+                                } catch (ActivityNotFoundException e) {
+                                    e.printStackTrace();
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + service.webviewUrl)));
+                                }
+                            }
+                            break;
+                        }
+                        case  "9": {
                             Intent intent = new Intent(this, ContactActivity.class);
                             intent.putExtra("api_url", service.apiUrl);
                             startActivity(intent);
-                        } else {
+                            break;
+                        }
+                        case  "10": {
                             Intent intent = new Intent(this, DocmanMenuActivity.class);
                             intent.putExtra("root_menu", true);
                             intent.putExtras(new Bundle());
                             startActivity(intent);
+                            break;
                         }
-                    } else if (service.type.equals("2")) {
-                        Intent intent = new Intent(this, WebViewActivity.class);
-                        intent.putExtra("web_url", service.webviewUrl);
-                        startActivity(intent);
-                    } else if (service.type.equals("3")) {
-                        // TODO Open youtube video here
-                        Intent intent = new Intent(this, WebViewActivity.class);
-                        intent.putExtra("web_url", "https://m.youtube.com/watch?v=" + service.webviewUrl);
-                        startActivity(intent);
-                    } else if (service.type.equals("8")) {
-
-                        Intent intent = getPackageManager().getLaunchIntentForPackage(service.webviewUrl);
-                        if (intent != null) {
-                            startActivity(intent);
-                        } else {
-                            try{
-                                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("market://details?id="+service.webviewUrl)));
-                            }catch (ActivityNotFoundException e){
-                                e.printStackTrace();
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + service.webviewUrl)));
-                            }
-
+                        case "11": {
+                            Intent i = new Intent(this, EventActivity.class);
+                            startActivity(i);
+                            break;
                         }
                     }
                 }
@@ -305,6 +373,7 @@ public class MenuActivity extends BaseActivity {
                                     intent.putExtra("user_vodka", response.getJSONObject("status").getJSONObject("credentials").getString("username"));
                                     intent.putExtra("pass_vodka", response.getJSONObject("status").getJSONObject("credentials").getString("password"));
                                 } else {
+                                    System.out.println("not ok");
                                 }
                                 startActivity(intent);
 
@@ -355,5 +424,21 @@ public class MenuActivity extends BaseActivity {
     public void onBackPressed() {
         finish();
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 1 ) {
+            SharedPreferences preferences =  PreferenceManager.getDefaultSharedPreferences(this);
+            if(preferences.getBoolean("buy",false)){
+                recreate();
+                SharedPreferences.Editor prefEditor = preferences.edit();
+                prefEditor.putBoolean("buy",false);
+                prefEditor.apply();
+            }
+
+
+
+        }
     }
 }

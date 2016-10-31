@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "544886034359",
+    "project_id": "firebase-sentmatt"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544886034359:android:f73f8c17dcb23cc6",
+        "android_client_info": {
+          "package_name": "com.streamnow.sentmatt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKxwP-eNH4osnwR5A7LJkcuJ4gY06jgRw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

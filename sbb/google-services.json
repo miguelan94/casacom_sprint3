@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "185151801030",
+    "project_id": "sbb-mobile"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185151801030:android:fff337c916a21857",
+        "android_client_info": {
+          "package_name": "com.streamnow.sbb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-L9D7KoY7fLTkUPOksKQXUX8eD9aV-nE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

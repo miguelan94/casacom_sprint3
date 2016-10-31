@@ -275,16 +275,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 System.out.println("onFailure json");
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 System.out.println("onFailure array");
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
                 System.out.println("getURL KO: " + throwable.toString() + " status code = " + statusCode + " responseString = " + response);
+                progressDialog.dismiss();
             }
         });
         //}
@@ -378,6 +381,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
 
                     progressDialog.dismiss();
+                   // Intent i = new Intent(LoginActivity.this, RegistrationIntentService.class);
+                    //startService(i);
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();

@@ -221,8 +221,8 @@ public class MainActivity extends BaseActivity {
                         prefEditor.putString("user", username);
                         prefEditor.putString("pass", cipherPass);
                         prefEditor.apply();
-                        Intent i = new Intent(MainActivity.this, RegistrationIntentService.class);
-                        startService(i);
+                        //Intent i = new Intent(MainActivity.this, RegistrationIntentService.class);
+                        //startService(i);
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();

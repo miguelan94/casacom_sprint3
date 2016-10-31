@@ -65,7 +65,7 @@ public class DocMenuAdapter extends BaseAdapter
         }
 
         LinearLayout row_bgnd = (LinearLayout)convertView.findViewById(R.id.row_bgnd);
-        row_bgnd.setBackgroundColor(Lindau.getInstance().getCurrentSessionUser().userInfo.partner.colorService);
+        row_bgnd.setBackgroundColor(Lindau.getInstance().getCurrentSessionUser().userInfo.partner.backgroundColorSmartphone);
         IMenuPrintable dmElement = items.get(position);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.row_icon);
         TextView textView = (TextView) convertView.findViewById(R.id.row_text);

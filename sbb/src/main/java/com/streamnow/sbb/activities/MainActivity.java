@@ -65,8 +65,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Intent intent = new Intent(this, RegistrationIntentService.class);
-        //startService(intent);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.getBoolean("keepSession", false) && !preferences.getString("AppId", "").equalsIgnoreCase("")) {
@@ -237,6 +235,8 @@ public class MainActivity extends BaseActivity {
                         prefEditor.putString("user", username);
                         prefEditor.putString("pass", cipherPass);
                         prefEditor.apply();
+                        //Intent i = new Intent(MainActivity.this, RegistrationIntentService.class);
+                        //startService(i);
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();

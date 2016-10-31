@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.streamnow.vulcanomobile"
+        applicationId "com.streamnow.vulcano"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

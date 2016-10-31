@@ -154,6 +154,7 @@ public class DocmanMenuActivity extends BaseActivity {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
             try {
+                System.out.println("response" + response.toString());
                 if (response.getString("status").equals("ok")) {
                     ArrayList<IMenuPrintable> userTreeArray = new ArrayList<>();
                     userTreeArray.addAll(DMCategory.categoriesWithArray(response.getJSONArray("usertree")));

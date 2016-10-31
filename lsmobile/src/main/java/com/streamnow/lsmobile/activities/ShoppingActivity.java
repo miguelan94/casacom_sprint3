@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -44,6 +47,7 @@ import com.streamnow.lsmobile.lib.LDConnection;
 import com.streamnow.lsmobile.utils.DocMenuAdapter;
 import com.streamnow.lsmobile.utils.Lindau;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -158,8 +162,8 @@ public class ShoppingActivity extends BaseActivity {
                             if (v.getTag(R.string.TAGService)!=null) {
                                 final int position = Integer.parseInt(v.getTag(R.string.TAGService).toString());
                                 new AlertDialog.Builder(ShoppingActivity.this)
-                                        .setTitle(R.string.app_name)
-                                        .setMessage(services.get(position).name)
+                                        .setTitle(services.get(position).name)
+                                        .setMessage(services.get(position).description)
                                         .setPositiveButton(getString(R.string.buy), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 new AlertDialog.Builder(ShoppingActivity.this)
@@ -202,8 +206,8 @@ public class ShoppingActivity extends BaseActivity {
                         public void onClick(View v) {
                             if (v.getTag(R.string.TAGService) != null) {
                                 new AlertDialog.Builder(ShoppingActivity.this)
-                                        .setTitle(R.string.app_name)
-                                        .setMessage(services.get(Integer.parseInt(v.getTag(R.string.TAGService).toString())).name)
+                                        .setTitle(services.get(Integer.parseInt(v.getTag(R.string.TAGService).toString())).name)
+                                        .setMessage(services.get(Integer.parseInt(v.getTag(R.string.TAGService).toString())).description)
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                             }
@@ -257,8 +261,73 @@ public class ShoppingActivity extends BaseActivity {
                             .setMessage(getString(R.string.service_activated))
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ArrayList<LDService> services = sessionUser.availableServices;
+                                    //ArrayList<LDService> services = sessionUser.availableServices;
                                     //services.get(serviceClicked).usable = true;
+
+
+                                    RequestParams requestParams = new RequestParams();
+                                    requestParams.add("access_token", sessionUser.accessToken);
+                                    LDConnection.get("getUserInfo", requestParams, new JsonHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                                            ArrayList<LDService> services;
+                                            try {
+                                                services = LDService.servicesFromArray(response.getJSONArray("available_services"));
+                                            } catch (JSONException e) {
+                                                 services = null;
+                                                e.printStackTrace();
+                                            }
+                                            if(services!=null){
+                                                sessionUser.availableServices = services;
+                                                Lindau.getInstance().setCurrentSessionUser(sessionUser);
+                                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ShoppingActivity.this);
+                                                SharedPreferences.Editor prefEditor = sharedPref.edit();
+
+                                                if(sharedPref.getBoolean("keepSession",false)){
+                                                    JSONObject json = null;
+                                                    try {
+                                                        json = new JSONObject(sharedPref.getString("session_user",""));
+                                                        json.put("available_services",response.getJSONArray("available_services"));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                    if(json!=null){
+                                                         prefEditor.putString("session_user",json.toString());
+                                                    }
+                                                }
+                                                prefEditor.putBoolean("buy",true);
+                                                prefEditor.apply();
+                                                recreate();
+
+
+
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
+                                            System.out.println("onFailure throwable: " + throwable.toString() + " status code = " + statusCode);
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                            System.out.println("onFailure json");
+                                        }
+                                    });
+
+
+
+
+
+
+
+
+
+
 
                                 }
                             })

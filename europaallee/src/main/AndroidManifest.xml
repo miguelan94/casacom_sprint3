@@ -89,7 +89,8 @@
 
         <service
             android:name=".activities.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false">
+        </service>
         <service
             android:name=".activities.TokenRefreshListenerService"
             android:exported="false">

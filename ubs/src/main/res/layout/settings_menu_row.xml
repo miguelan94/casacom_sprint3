@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="82dp"
+    android:padding="10dip"
+    >
+
+    <LinearLayout
+        android:id="@+id/row_settings_bgnd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <FrameLayout
+            android:layout_width="@dimen/box_icons_width"
+            android:layout_height="@dimen/box_icons_height"
+            android:id="@+id/layout_bgnd"
+            android:layout_marginLeft="8dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bgnd_circle_settings"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/row_settings_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_name"
+                android:layout_gravity="center"
+                android:adjustViewBounds="false" />
+
+        </FrameLayout>
+        <TextView
+            android:id="@+id/row_settings_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Example application"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:layout_weight="2"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:id="@+id/profile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/row_profile"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:orientation="horizontal"
+            android:background="#000">
+            <ImageView
+                android:id="@+id/row_icon_profile"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/profile3x"
+                />
+
+            <TextView
+                android:id="@+id/row_text_profile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="17sp"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:id="@+id/contacts"
+        android:layout_above="@+id/profile"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
+        <LinearLayout
+            android:id="@+id/row_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:orientation="horizontal"
+            android:background="#000">
+
+            <ImageView
+                android:id="@+id/row_icon_contacts"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_action_name"
+                />
+
+            <TextView
+                android:id="@+id/row_text_contacts"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/contacts"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="17sp"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:id="@+id/logout"
+        android:layout_above="@+id/shopping"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:id="@+id/row_logout"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:orientation="horizontal"
+            android:background="#000">
+
+            <ImageView
+                android:id="@+id/row_icon_logout"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/logout3x"
+                />
+
+            <TextView
+                android:id="@+id/row_text_logout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="17sp"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:id="@+id/shopping"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logout">
+
+        <LinearLayout
+            android:id="@+id/row_shopping"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:orientation="horizontal"
+            android:background="#000"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/row_icon_shopping"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_action_name"
+                />
+
+            <TextView
+                android:id="@+id/row_text_shopping"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/shopping"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="17sp"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
+
+<LinearLayout
+android:id="@+id/settings_menu_background"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_alignParentTop="true"
+android:layout_alignParentLeft="true"
+android:layout_alignParentStart="true">
+</LinearLayout>
+-->
+
