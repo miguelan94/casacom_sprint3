@@ -30,7 +30,7 @@ public class ProfileActivity extends BaseActivity {
         getResources().updateConfiguration(config,getResources().getDisplayMetrics());
         setContentView(R.layout.activity_profile);
         ImageView bgnd_image = (ImageView)findViewById(R.id.profile_bgnd_image);
-        bgnd_image.setColorFilter(sessionUser.userInfo.partner.colorTop, PorterDuff.Mode.SRC_ATOP);
+        bgnd_image.setColorFilter(sessionUser.userInfo.partner.backgroundColorSmartphone, PorterDuff.Mode.SRC_ATOP);
 
         ImageView leftArrow = (ImageView)findViewById(R.id.left_arrow_profile);
         leftArrow.setOnClickListener(new View.OnClickListener() {
